@@ -1,0 +1,109 @@
+package GPA_Action;
+import java.util.*;
+
+
+public class GPA {
+    String class_grading(double gpa_gotten){
+        //This method grades in different category based on their GPA
+        if(gpa_gotten>=4.5){
+            return "first class student\n"+"category A student";
+        }else if(gpa_gotten>=3.5){
+            return "second class student(Upper Division)\n"+"category B student";
+        }else if(gpa_gotten>=2.4){
+            return "second class student(Lower Division)\n"+"category C student";
+        }else if(gpa_gotten>=1.5){
+            return "Third class student\n"+"category D student";
+        }else if(gpa_gotten>=1.00){
+            return "pass\n"+"category F student";
+        }else{
+            return "Fail\n"+"category FF student";
+        }
+
+    }
+    int point_comf(String grad_ent){
+        int point;
+        /*
+         *This method performs a specific function which is to convert
+         * our grades to the neccessary
+         * points.
+         * it's more like rule never changes.
+         */
+        if(grad_ent.toUpperCase().equals("A")){
+            return 4;
+        }else if (grad_ent.toUpperCase().equals("B")){
+           return 3;
+        }else if(grad_ent.toUpperCase().equals("C")){
+            return 2;
+        }else if(grad_ent.toUpperCase().equals("D")){
+            return 1;
+        }else if(grad_ent.toUpperCase().equals("F")){
+            return 0;
+        }else{
+
+            System.out.println("You entered an unknown grade");
+            System.exit(0);
+            return 000;
+        }
+    }
+
+
+    void Add_Courses_grade_unit(int nun_of_courses_offered) {
+        //i handled two possible errors that could arrise from using this program
+        try{
+            Scanner ent=new Scanner(System.in);
+            //Confirms number of course enter at main method
+            System.out.println("Total course confirmed as "+nun_of_courses_offered);
+            int[] multi_point_unit=new int[nun_of_courses_offered];
+            double add_of_unit=0;
+            double add_of_multi_point_unit=0;
+            String[] grade=new String[nun_of_courses_offered];
+            int[] unit=new int[nun_of_courses_offered];
+            String[] course=new String[nun_of_courses_offered];
+           //asks for courses based on the number of entered and stores them in arrays
+        for(int i=0;i<nun_of_courses_offered;i++) {
+            System.out.println("Enter course");
+            course[i] = ent.next();
+            System.out.println("\tEnter unit: ");
+            unit[i] = ent.nextInt();
+            System.out.println("\tEnter your grade: ");
+            grade[i] = ent.next();
+            //Stores the multiple of unit and grade in array multi_point_unit
+            //but before doing that our grades are first converted to points
+            multi_point_unit[i]=point_comf(grade[i])*unit[i];
+
+
+        }
+           for(int x=0;x<unit.length;x++){
+               /*
+               this loop does the most it adds all entry of unit and multiple of grade and unit.
+                */
+               add_of_multi_point_unit=add_of_multi_point_unit+multi_point_unit[x];
+               add_of_unit=add_of_unit+unit[x];
+           }
+            System.out.println("Total multiple of Grade and unit: "+add_of_multi_point_unit);
+            System.out.println("Total unit: "+add_of_unit);
+            //division of your GP is done here.
+            double gpa_out=(add_of_multi_point_unit/add_of_unit);
+            System.out.println(String.format("Your GPA: %.2f ",gpa_out));
+            System.out.println(class_grading(gpa_out));
+
+        }catch(ArrayIndexOutOfBoundsException e) {
+            System.out.println("Maximum number of courses already!!! ");
+        }catch(InputMismatchException e){
+            System.out.println("input type was wrong.");
+        }
+    }
+    public static void main(String[] args){
+        int nun_of_courses_offered;
+
+        //initialized scanner class to receive our input
+        Scanner scan=new Scanner(System.in);
+        GPA calc=new GPA();
+        System.out.println("Enter Total number of coursed offered: ");
+        nun_of_courses_offered=scan.nextInt();
+        //The reason for our output
+        // recall add_Course_grade_unit was created to be reusable as much as you can.
+        calc.Add_Courses_grade_unit(nun_of_courses_offered);
+
+    }
+}
